@@ -21,7 +21,7 @@ const LayoutWrapper = ({ children }: Props) => {
             <Link href="/" aria-label="Tailwind CSS Blog">
               <div className="flex items-center justify-between">
                 <div className="mr-3">
-                  <img src="static/images/logo.png" width={100} height={100}></img>
+                  <img src="/static/images/logo.png" width={100} height={100}></img>
                   {/* TODO:  <Logo /> */}
                 </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
