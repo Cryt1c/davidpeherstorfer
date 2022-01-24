@@ -8,6 +8,8 @@ interface Props {
 }
 
 const Giscus = ({ mapping }: Props) => {
+  // TODO: Enable comments
+  return null
   const [enableLoadComments, setEnabledLoadComments] = useState(true)
   const { theme, resolvedTheme } = useTheme()
   const commentsTheme =

@@ -3,6 +3,9 @@ import React, { useRef, useState } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 
 const NewsletterForm = ({ title = 'Subscribe to the newsletter' }) => {
+  // TODO: Enable newsletter
+  return null
+
   const inputEl = useRef<HTMLInputElement>(null)
   const [error, setError] = useState(false)
   const [message, setMessage] = useState('')
