@@ -8,7 +8,7 @@ summary: Introduction to this blog and an outline of the topics
 
 ## Intro
 
-In this blog article I am going to outline what this blog is all about. Since I always have some interesting projects going on in my life my good friend Johannes (Link) and my girlfriend Julia came up with the idea of creating this blog. Thanks a lot for that input! ❤️
+In this blog article I am going to outline what this blog is all about. Since I always have some interesting projects going on in my life my girlfriend Julia and my good friend Johannes ([Blog](https://typeshare.co/27leaves)) came up with the idea of creating this blog. Thanks a lot for that input! ❤️
 
 On the blog I want to cover the topics from the areas web development and house renovation. This blog should not only help me to document my projects but is also a call for feedback. If you have any ideas on the topics I am writing about you want to share with me or tipps and tricks on how to do things differently just send me a message on Twitter or LinkedIn.
 
