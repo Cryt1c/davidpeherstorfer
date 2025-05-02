@@ -61,6 +61,15 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/next-generation-dicom-viewer',
+        destination: 'https://cryt1c.github.io/DICOMViewer/',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
