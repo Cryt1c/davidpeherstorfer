@@ -6,6 +6,7 @@ import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
+import TrackingToggle from './three-d/TrackingToggle'
 import { ReactNode } from 'react'
 
 interface Props {
@@ -16,7 +17,7 @@ const LayoutWrapper = ({ children }: Props) => {
   return (
     <SectionContainer>
       <div className="flex flex-col justify-between h-screen">
-        <header className="flex items-center justify-between py-10">
+        <header className="flex items-center justify-between py-10 depth-near">
           <div>
             <Link href="/" aria-label="Tailwind CSS Blog">
               <div className="flex items-center justify-between">
@@ -51,10 +52,11 @@ const LayoutWrapper = ({ children }: Props) => {
               ))}
             </div>
             <ThemeSwitch />
+            <TrackingToggle />
             <MobileNav />
           </div>
         </header>
-        <main className="mb-auto">{children}</main>
+        <main className="mb-auto depth-mid">{children}</main>
         <Footer />
       </div>
     </SectionContainer>

@@ -1,9 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const ScrollTopAndComment = () => {
   const [show, setShow] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
 
   useEffect(() => {
     const handleWindowScroll = () => {
@@ -21,7 +25,10 @@ const ScrollTopAndComment = () => {
   const handleScrollToComment = () => {
     document.getElementById('comment')?.scrollIntoView()
   }
-  return (
+
+  // Portaled to <body> so the fixed positioning keeps working when the 3D
+  // depth layers apply CSS transforms to the surrounding content.
+  const controls = (
     <div
       className={`fixed flex-col hidden gap-3 right-8 bottom-8 ${show ? 'md:flex' : 'md:hidden'}`}
     >
@@ -55,6 +62,8 @@ const ScrollTopAndComment = () => {
       </button>
     </div>
   )
+
+  return mounted ? createPortal(controls, document.body) : null
 }
 
 export default ScrollTopAndComment

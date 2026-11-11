@@ -11,7 +11,7 @@ const ContentSecurityPolicy = `
   script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app;
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
-  media-src 'none';
+  media-src 'self' blob:;
   connect-src *;
   font-src 'self';
   frame-src giscus.app
@@ -49,9 +49,10 @@ const securityHeaders = [
     value: 'max-age=31536000; includeSubDomains; preload',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy
+  // camera is allowed for the opt-in 3D eye-tracking feature (same-origin only)
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
+    value: 'camera=(self), microphone=(), geolocation=()',
   },
 ]
 

@@ -6,6 +6,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import Analytics from '@/components/analytics'
 import LayoutWrapper from '@/components/LayoutWrapper'
+import { TrackingProvider } from '@/components/three-d/tracking-context'
+import TrackingController from '@/components/three-d/TrackingController'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -51,10 +53,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`} suppressHydrationWarning>
-      <body className="antialiased text-black bg-white dark:bg-gray-900 dark:text-white">
+      <body className="antialiased overflow-x-clip text-black bg-white dark:bg-gray-900 dark:text-white">
         <ThemeProviders>
           <Analytics />
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <TrackingProvider>
+            <TrackingController />
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </TrackingProvider>
         </ThemeProviders>
       </body>
     </html>

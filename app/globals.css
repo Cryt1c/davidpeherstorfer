@@ -88,6 +88,121 @@
   color: var(--color-primary-600);
 }
 
+/* ---------------------------------------------------------------------------
+ * 3D illusion scene (head/eye tracking + pointer parallax)
+ *
+ * TrackingController (components/three-d/) publishes the viewer's estimated
+ * head position as CSS variables on <html>:
+ *   --px    horizontal position, -1 .. 1
+ *   --py    vertical position,   -1 .. 1
+ *   --pzoom lean-in factor from apparent face size
+ *
+ * The depth utilities emulate looking through a window: elements "closer" to
+ * the viewer shift more and against the head movement, far elements shift
+ * slightly with it. Amplitudes are kept small so text stays readable.
+ * ------------------------------------------------------------------------ */
+
+.depth-far {
+  transform: translate3d(calc(var(--px, 0) * 8px), calc(var(--py, 0) * 8px), 0);
+}
+
+.depth-mid {
+  transform: translate3d(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -10px), 0);
+}
+
+.depth-near {
+  transform: translate3d(calc(var(--px, 0) * -26px), calc(var(--py, 0) * -26px), 0)
+    scale(calc(1 + var(--pzoom, 0) * 0.03));
+}
+
+.depth-pop {
+  /* Cards and list items that float above the content plane */
+  transform: translate3d(calc(var(--px, 0) * -18px), calc(var(--py, 0) * -18px), 0);
+  will-change: transform;
+}
+
+/* Users who prefer reduced motion get a completely static scene. */
+@media (prefers-reduced-motion: reduce) {
+  .depth-far,
+  .depth-mid,
+  .depth-near,
+  .depth-pop {
+    transform: none;
+  }
+}
+
+/* Decorative "far plane" behind the content — adds the depth contrast that
+ * makes the parallax readable. Purely visual, never intercepts input. */
+.scene-background {
+  position: fixed;
+  inset: -40px; /* bleed so movement never reveals an edge */
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+  background:
+    radial-gradient(
+      42rem 30rem at 12% 8%,
+      color-mix(in srgb, var(--color-primary-400) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      48rem 34rem at 88% 78%,
+      color-mix(in srgb, var(--color-primary-600) 12%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      36rem 26rem at 70% 12%,
+      color-mix(in srgb, var(--color-primary-500) 8%, transparent),
+      transparent 70%
+    );
+}
+
+/* Small status pill shown while eye tracking is active. */
+.scene-camera-indicator {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--color-gray-500);
+  background-color: color-mix(in srgb, var(--color-gray-100) 85%, transparent);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 9999px;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.dark .scene-camera-indicator {
+  color: var(--color-gray-400);
+  background-color: color-mix(in srgb, var(--color-gray-800) 85%, transparent);
+  border-color: var(--color-gray-700);
+}
+
+.scene-camera-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-green-500);
+}
+
+.scene-camera-dot--warn {
+  background-color: var(--color-amber-500);
+}
+
+.scene-camera-indicator--warn {
+  color: var(--color-amber-700);
+  border-color: var(--color-amber-400);
+}
+
+.dark .scene-camera-indicator--warn {
+  color: var(--color-amber-400);
+}
+
 .dark .prose a:hover {
   color: var(--color-primary-400);
 }
