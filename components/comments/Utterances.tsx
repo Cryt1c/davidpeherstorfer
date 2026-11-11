@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, useCallback } from 'react'
 import { useTheme } from 'next-themes'
 
@@ -21,7 +23,7 @@ const Utterances = ({ issueTerm }: Props) => {
     setEnabledLoadComments(false)
     const script = document.createElement('script')
     script.src = 'https://utteranc.es/client.js'
-    script.setAttribute('repo', siteMetadata.comment.utterancesConfig.repo)
+    script.setAttribute('repo', siteMetadata.comment.utterancesConfig.repo ?? '')
     script.setAttribute('issue-term', issueTerm)
     script.setAttribute('label', siteMetadata.comment.utterancesConfig.label)
     script.setAttribute('theme', commentsTheme)
@@ -41,6 +43,7 @@ const Utterances = ({ issueTerm }: Props) => {
   useEffect(() => {
     const iframe = document.querySelector('iframe.utterances-frame')
     if (!iframe) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     LoadComments()
   }, [LoadComments])
 

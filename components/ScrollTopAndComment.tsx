@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 
 const ScrollTopAndComment = () => {
@@ -17,7 +19,7 @@ const ScrollTopAndComment = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   const handleScrollToComment = () => {
-    document.getElementById('comment').scrollIntoView()
+    document.getElementById('comment')?.scrollIntoView()
   }
   return (
     <div

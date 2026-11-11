@@ -14,6 +14,10 @@
 public/sitemap.xml
 .vercel
 
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
 # production
 /build
 *.xml

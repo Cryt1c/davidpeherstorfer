@@ -1,25 +1,33 @@
-/* eslint-disable react/display-name */
+'use client'
+
 import React, { useMemo } from 'react'
-import { ComponentMap, getMDXComponent } from 'mdx-bundler/client'
+import { getMDXComponent } from 'mdx-bundler/client'
 import Image from './Image'
 import CustomLink from './Link'
 import TOCInline from './TOCInline'
 import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
+import AuthorLayout from '@/layouts/AuthorLayout'
+import PostLayout from '@/layouts/PostLayout'
+import PostSimple from '@/layouts/PostSimple'
 
-const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) => {
-  const Layout = require(`../layouts/${layout}`).default
+const layouts = {
+  AuthorLayout,
+  PostLayout,
+  PostSimple,
+}
+
+const Wrapper = ({ layout, ...rest }: { layout: string; [key: string]: unknown }) => {
+  const Layout = layouts[layout] ?? PostLayout
   return <Layout {...rest} />
 }
 
-export const MDXComponents: ComponentMap = {
+export const MDXComponents = {
   Image,
-  //@ts-ignore
   TOCInline,
   a: CustomLink,
   pre: Pre,
   wrapper: Wrapper,
-  //@ts-ignore
   BlogNewsletterForm,
 }
 
@@ -32,5 +40,6 @@ interface Props {
 export const MDXLayoutRenderer = ({ layout, mdxSource, ...rest }: Props) => {
   const MDXLayout = useMemo(() => getMDXComponent(mdxSource), [mdxSource])
 
+  // eslint-disable-next-line react-hooks/static-components
   return <MDXLayout layout={layout} components={MDXComponents} {...rest} />
 }

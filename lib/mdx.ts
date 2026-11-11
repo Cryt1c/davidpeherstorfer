@@ -9,7 +9,6 @@ import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 import { Toc } from 'types/Toc'
 // Remark packages
 import remarkGfm from 'remark-gfm'
-import remarkFootnotes from 'remark-footnotes'
 import remarkMath from 'remark-math'
 import remarkCodeTitles from './remark-code-title'
 import remarkTocHeadings from './remark-toc-headings'
@@ -56,13 +55,11 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
 
   const toc: Toc = []
 
-  // Parsing frontmatter here to pass it in as options to rehype plugin
-  const { data: frontmatter } = matter(source)
-  const { code } = await bundleMDX({
+  const { code, frontmatter } = await bundleMDX({
     source,
     // mdx imports can be automatically source from the components directory
     cwd: path.join(root, 'components'),
-    xdmOptions(options) {
+    mdxOptions(options, frontmatter) {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
       // plugins in the future.
@@ -71,7 +68,6 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
         [remarkTocHeadings, { exportRef: toc }],
         remarkGfm,
         remarkCodeTitles,
-        [remarkFootnotes, { inlineNotes: true }],
         remarkMath,
         remarkImgToJsx,
       ]
@@ -104,8 +100,12 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
       readingTime: readingTime(code),
       slug: slug || null,
       fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
-      ...frontmatter,
-      date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
+      ...(frontmatter as T),
+    } as T & {
+      readingTime: ReturnType<typeof readingTime>
+      slug: string | string[]
+      fileName: string
+      date: string
     },
   }
 }
@@ -131,7 +131,7 @@ export async function getAllFilesFrontMatter(folder: 'blog') {
       allFrontMatter.push({
         ...frontmatter,
         slug: formatSlug(fileName),
-        date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
+        date: frontmatter.date ? new Date(frontmatter.date).toISOString() : '',
       })
     }
   })

@@ -1,3 +1,5 @@
+'use client'
+
 import siteMetadata from '@/data/siteMetadata'
 import dynamic from 'next/dynamic'
 import { PostFrontMatter } from 'types/PostFrontMatter'
@@ -35,7 +37,7 @@ const Comments = ({ frontMatter }: Props) => {
       term = frontMatter.slug
       break
     case 'url':
-      term = window.location.href
+      term = typeof window !== 'undefined' ? window.location.href : frontMatter.slug
       break
     case 'title':
       term = frontMatter.title
